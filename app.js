@@ -1,4 +1,5 @@
 import express from 'express'
+import fs from 'fs'
 
 const app = express()
 const PORT = 443
@@ -11,7 +12,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/*' (req, res) => {
-  res.sendFile(path.join(__dirname, 'src', ''));
+  if (fs.existsSync(req.url))
+    res.sendFile(path.join(__dirname, 'src', req.url));
+  else
+    req.status(404).send('Erreur 404 : Page non trouvée')
   //res.send(req)
 })
 
