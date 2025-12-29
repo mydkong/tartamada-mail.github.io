@@ -10,5 +10,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Le serveur est en ligne sur http://localhost:${PORT}`);
+  console.log(`Serveur en ligne !`);
 });
