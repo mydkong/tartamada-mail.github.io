@@ -1,0 +1,3781 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tartamada© Mail</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5568d3;
+            --secondary: #764ba2;
+            --success: #4caf50;
+            --error: #f44336;
+            --warning: #ff9800;
+            --info: #2196f3;
+            --premium: #ffd700;
+            --bg-main: #f5f7fa;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode {
+            --bg-main: #1a1a1a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border: #333;
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Auth Page */
+        .auth-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-page::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+            padding: 50px;
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            z-index: 1;
+        }
+
+        body.dark-mode .auth-card {
+            background: #2d3748;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+            stroke: white;
+        }
+
+        h1 {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: var(--bg-main);
+            color: var(--text-primary);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        body.dark-mode input:focus, body.dark-mode textarea:focus {
+            background: #1a1a1a;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            margin-top: 12px;
+            width: 100%;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-main);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .user-profile-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-profile-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .user-avatar-nav {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .premium-badge {
+            background: linear-gradient(135deg, var(--premium) 0%, #ffed4e 100%);
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Sidebar Navigation */
+        .inbox-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+        }
+
+        body.dark-mode .sidebar {
+            background: #2d3748;
+        }
+
+        .sidebar-section {
+            margin-bottom: 24px;
+        }
+
+        .sidebar-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-item {
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .sidebar-item:hover {
+            background: var(--bg-main);
+        }
+
+        .sidebar-item.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .sidebar-item svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .sidebar-badge {
+            margin-left: auto;
+            background: var(--error);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .sidebar-item.active .sidebar-badge {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        body.dark-mode .main-content {
+            background: #2d3748;
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, var(--bg-main) 0%, #e9ecef 100%);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.dark-mode .content-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d3748 100%);
+        }
+
+        .content-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            color: var(--text-primary);
+        }
+
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 40px 10px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        /* Profile Settings Modal */
+        .profile-modal {
+            padding: 40px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .profile-modal h3 {
+            font-size: 24px;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-avatar-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: var(--bg-main);
+            border-radius: 16px;
+        }
+
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            object-fit: cover;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .file-input-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .file-input-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .premium-features {
+            background: linear-gradient(135deg, #fff9e6 0%, #ffecb3 100%);
+            border: 2px solid var(--premium);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+
+        body.dark-mode .premium-features {
+            background: linear-gradient(135deg, #2d2416 0%, #3d3220 100%);
+        }
+
+        .premium-features h4 {
+            color: var(--text-primary);
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .premium-feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .premium-feature-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+        }
+
+        .premium-feature-list li::before {
+            content: '✓';
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--premium);
+            border-radius: 50%;
+            color: #000;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Admin Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .stat-card {
+            padding: 24px;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .stat-card.blue { 
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+        .stat-card.blue::before { background: #2196f3; }
+        
+        .stat-card.green { 
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+        .stat-card.green::before { background: #4caf50; }
+        
+        .stat-card.purple { 
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+        }
+        .stat-card.purple::before { background: #9c27b0; }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .stat-card.blue .stat-icon { background: rgba(33, 150, 243, 0.2); color: #1976d2; }
+        .stat-card.green .stat-icon { background: rgba(76, 175, 80, 0.2); color: #388e3c; }
+        .stat-card.purple .stat-icon { background: rgba(156, 39, 176, 0.2); color: #7b1fa2; }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .stat-card.blue .stat-value { color: #1976d2; }
+        .stat-card.green .stat-value { color: #388e3c; }
+        .stat-card.purple .stat-value { color: #7b1fa2; }
+
+        /* User List */
+        .user-card {
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .user-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+            transform: translateX(5px);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            position: relative;
+            object-fit: cover;
+        }
+
+        .user-avatar.admin { 
+            background: linear-gradient(135deg, #ff5252 0%, #f44336 100%);
+            color: white;
+        }
+        .user-avatar.premium { 
+            background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+            color: white;
+        }
+        .user-avatar.regular { 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .user-details h4 {
+            font-size: 17px;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .user-details p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .user-badges {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .badge.admin {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .badge.premium {
+            background: #fff9c4;
+            color: #f57f17;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .action-btn.premium {
+            background: #ffd54f;
+            color: #f57f17;
+        }
+
+        .action-btn.reset {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn.delete {
+            background: var(--error);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Email List */
+        .email-item {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+        }
+
+        .email-item:hover {
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.05) 0%, transparent 100%);
+        }
+
+        .email-item.unread {
+            background: rgba(102, 126, 234, 0.03);
+        }
+
+        .email-item.unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--primary);
+        }
+
+        .email-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .email-checkbox.checked {
+            background: var(--primary);
+            border-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .email-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .email-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
+        .email-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .email-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        .email-from {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        .email-date {
+            font-size: 13px;
+            color: #999;
+            white-space: nowrap;
+        }
+
+        .email-subject {
+            font-size: 15px;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .email-item.unread .email-subject {
+            font-weight: 600;
+        }
+
+        .email-preview {
+            font-size: 14px;
+            color: var(--text-secondary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .email-attachments-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-left: 8px;
+        }
+
+        .email-actions {
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .email-item:hover .email-actions {
+            opacity: 1;
+        }
+
+        .email-action-btn {
+            padding: 6px;
+            border: none;
+            background: var(--bg-main);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .email-action-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .email-action-btn.starred {
+            color: #ffc107;
+        }
+
+        .empty-state {
+            padding: 80px 20px;
+            text-align: center;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            opacity: 0.3;
+            margin-bottom: 20px;
+            stroke: var(--primary);
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* Email View */
+        .email-view {
+            padding: 40px;
+        }
+
+        .back-btn {
+            color: var(--primary);
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 15px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .email-view-header {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .email-view-title {
+            font-size: 28px;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .email-view-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--text-secondary);
+            align-items: center;
+        }
+
+        .email-sender {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sender-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            object-fit: cover;
+        }
+
+        .email-view-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .email-view-body {
+            color: var(--text-primary);
+            line-height: 1.8;
+            white-space: pre-wrap;
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        .email-attachments {
+            background: var(--bg-main);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .email-attachments h4 {
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .attachment-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .attachment-item {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        body.dark-mode .attachment-item {
+            background: #1a1a1a;
+        }
+
+        .attachment-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .attachment-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .attachment-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .attachment-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .attachment-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .attachment-size {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Compose */
+        .compose-form {
+            padding: 40px;
+        }
+
+        .compose-form h3 {
+            font-size: 24px;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 200px;
+        }
+
+        .compose-attachments {
+            background: var(--bg-main);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .compose-attachments-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .compose-attachment-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .compose-attachment-item {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        body.dark-mode .compose-attachment-item {
+            background: #1a1a1a;
+        }
+
+        .compose-attachment-remove {
+            cursor: pointer;
+            color: var(--error);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .compose-attachment-remove:hover {
+            background: var(--error);
+            color: white;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-cancel {
+            background: var(--bg-main);
+            color: var(--text-primary);
+        }
+
+        .btn-cancel:hover {
+            background: var(--border);
+        }
+
+        /* Toolbar */
+        .email-toolbar {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg-main);
+        }
+
+        .toolbar-btn {
+            padding: 8px 12px;
+            border: none;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .toolbar-btn {
+            background: #1a1a1a;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .toolbar-separator {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+            margin: 0 8px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Notification System */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 420px;
+        }
+
+        .notification {
+            background: white;
+            border-radius: 16px;
+            padding: 18px 24px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-left: 4px solid;
+        }
+
+        body.dark-mode .notification {
+            background: #2d3748;
+        }
+
+        .notification.success { border-left-color: var(--success); }
+        .notification.error { border-left-color: var(--error); }
+        .notification.info { border-left-color: var(--info); }
+        .notification.warning { border-left-color: var(--warning); }
+
+        .notification-icon {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .notification.success .notification-icon { color: var(--success); }
+        .notification.error .notification-icon { color: var(--error); }
+        .notification.info .notification-icon { color: var(--info); }
+        .notification.warning .notification-icon { color: var(--warning); }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .notification-message {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .notification-close {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .notification-close:hover {
+            background: var(--bg-main);
+            color: var(--text-primary);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease-out;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        body.dark-mode .modal {
+            background: #2d3748;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .modal-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffebee;
+            color: var(--error);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-message {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-btn-cancel {
+            background: var(--bg-main);
+            color: var(--text-primary);
+        }
+
+        .modal-btn-cancel:hover {
+            background: var(--border);
+        }
+
+        .modal-btn-confirm {
+            background: linear-gradient(135deg, var(--error) 0%, #e53935 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+        }
+
+        .modal-btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        .prompt-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 15px;
+            margin-bottom: 24px;
+            background: var(--bg-main);
+            color: var(--text-primary);
+        }
+
+        .prompt-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        body.dark-mode .prompt-input:focus {
+            background: #1a1a1a;
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(450px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(450px) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .inbox-layout {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: flex;
+                overflow-x: auto;
+                gap: 8px;
+            }
+            .sidebar-item {
+                margin-bottom: 0;
+                white-space: nowrap;
+            }
+            .sidebar-section {
+                margin-bottom: 0;
+            }
+            .sidebar-title {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .user-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            .user-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            .search-box {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- Auth Page -->
+    <div id="authPage" class="auth-page">
+        <div class="auth-card">
+            <div class="logo-container">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+                </div>
+                <h1>Tartamada© Mail</h1>
+                <p class="subtitle">Messagerie professionnelle avec fonctionnalités Premium</p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm">
+                <div class="form-group">
+                    <label>Adresse email</label>
+                    <input type="text" id="loginEmail" placeholder="utilisateur@tartamada.com">
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary" onclick="handleLogin()">Se connecter</button>
+                <button class="btn btn-secondary" onclick="showSignup()">Créer un compte</button>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signupForm" class="hidden">
+                <div class="form-group">
+                    <label>Nom d'utilisateur</label>
+                    <input type="text" id="signupUsername" placeholder="votre-nom">
+                    <p class="hint">Votre adresse sera: <span id="emailPreview">@tartamada.com</span></p>
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="signupPassword" placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label>Confirmer le mot de passe</label>
+                    <input type="password" id="signupConfirm" placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary" onclick="handleSignup()">Créer mon compte</button>
+                <button class="btn btn-secondary" onclick="showLogin()">Déjà un compte ? Se connecter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Page -->
+    <div id="adminPage" class="hidden">
+        <nav class="navbar">
+            <div class="navbar-content">
+                <div class="navbar-left">
+                    <div class="navbar-logo">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div>
+                        <div style="font-size: 20px; font-weight: 700;">Panneau Administrateur</div>
+                        <div style="font-size: 13px; opacity: 0.9;" id="adminName">Admin</div>
+                    </div>
+                </div>
+                <div class="navbar-right">
+                    <button class="theme-toggle" onclick="toggleTheme()">
+                        <svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <button class="nav-btn" onclick="showInbox()">
+                        <svg viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+                        Ma boîte mail
+                    </button>
+                    <button class="nav-btn" onclick="handleLogout()">
+                        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        Déconnexion
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div class="stat-label">Utilisateurs totaux</div>
+                    <div class="stat-value" id="totalUsers">0</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+                    </div>
+                    <div class="stat-label">Comptes Premium</div>
+                    <div class="stat-value" id="premiumUsers">0</div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    </div>
+                    <div class="stat-label">Messages envoyés</div>
+                    <div class="stat-value" id="totalEmails">0</div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div style="padding: 40px;">
+                    <h2 style="display: flex; align-items: center; gap: 12px; margin-bottom: 30px; font-size: 24px;">
+                        <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        Gestion des utilisateurs
+                    </h2>
+                    <div id="userList">Chargement...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inbox Page -->
+    <div id="inboxPage" class="hidden">
+        <nav class="navbar">
+            <div class="navbar-content">
+                <div class="navbar-left">
+                    <div class="navbar-logo">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+                    </div>
+                    <div>
+                        <div style="font-size: 20px; font-weight: 700;">Tartamada© Mail</div>
+                        <div style="font-size: 13px; opacity: 0.9;" id="userEmail"></div>
+                    </div>
+                </div>
+                <div class="navbar-right">
+                    <button class="theme-toggle" onclick="toggleTheme()">
+                        <svg id="themeIcon2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <div class="user-profile-nav" onclick="showProfileSettings()">
+                        <div class="user-avatar-nav" id="navAvatar"></div>
+                        <span id="navUsername"></span>
+                    </div>
+                    <button class="nav-btn" id="adminBtn" onclick="showAdmin()" style="display: none;">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        Admin
+                    </button>
+                    <button class="nav-btn" onclick="handleLogout()">
+                        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        Déconnexion
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <!-- Premium Banner for free users -->
+            <div id="premiumBanner" class="premium-banner" style="display: none;">
+                <div class="premium-banner-content">
+                    <div class="premium-banner-icon">👑</div>
+                    <div class="premium-banner-text">
+                        <h4>Passez à Premium et débloquez toutes les fonctionnalités !</h4>
+                        <p>Thèmes personnalisés, signatures, statistiques, envoi illimité et bien plus...</p>
+                    </div>
+                </div>
+                <button class="premium-banner-btn" onclick="showProfileSettings()">
+                    Découvrir Premium - 4,99€/mois
+                </button>
+                <button class="premium-banner-close" onclick="closePremiumBanner()">
+                    <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            
+            <div class="inbox-layout">
+                <div class="sidebar">
+                    <div class="sidebar-section">
+                        <div class="sidebar-title">Dossiers</div>
+                        <div class="sidebar-item active" onclick="filterEmails('inbox')">
+                            <svg viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+                            <span>Réception</span>
+                            <span class="sidebar-badge" id="inboxBadge">0</span>
+                        </div>
+                        <div class="sidebar-item" onclick="filterEmails('unread')">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            <span>Non lus</span>
+                            <span class="sidebar-badge" id="unreadBadge">0</span>
+                        </div>
+                        <div class="sidebar-item" onclick="filterEmails('starred')">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <span>Favoris</span>
+                        </div>
+                        <div class="sidebar-item" onclick="filterEmails('sent')">
+                            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                            <span>Envoyés</span>
+                        </div>
+                        <div class="sidebar-item" onclick="filterEmails('drafts')">
+                            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            <span>Brouillons</span>
+                        </div>
+                        <div class="sidebar-item" onclick="filterEmails('trash')">
+                            <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            <span>Corbeille</span>
+                        </div>
+                    </div>
+                    <div class="sidebar-section">
+                        <div class="sidebar-title">Actions</div>
+                        <div class="sidebar-item" onclick="showCompose()">
+                            <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                            <span>Nouveau message</span>
+                        </div>
+                    </div>
+                    <div class="sidebar-section" id="premiumSection" style="display: none;">
+                        <div class="sidebar-title">Premium 👑</div>
+                        <div style="background: linear-gradient(135deg, #fff9e6 0%, #ffecb3 100%); padding: 12px; border-radius: 10px; font-size: 12px;">
+                            <div style="font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                                Statistiques
+                            </div>
+                            <div style="color: #666; margin-bottom: 4px;">
+                                📊 <span id="sentToday">0</span> envoyés aujourd'hui
+                            </div>
+                            <div style="color: #666; margin-bottom: 4px;">
+                                ⭐ <span id="starredCount">0</span> favoris
+                            </div>
+                            <div style="color: #666; margin-bottom: 8px;">
+                                💾 <span id="draftsCount">0</span> brouillons
+                            </div>
+                            <button onclick="toggleAutoReply()" style="width: 100%; padding: 8px; background: white; border: 1px solid var(--premium); border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; color: #666; margin-bottom: 6px;">
+                                ${currentUser?.autoReply?.enabled ? '🔕 Rép. Auto: ON' : '📧 Activer Rép. Auto'}
+                            </button>
+                            <button onclick="exportEmails()" style="width: 100%; padding: 8px; background: white; border: 1px solid var(--premium); border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; color: #666;">
+                                📥 Exporter emails
+                            </button>
+                        </div>
+                    </div>
+                    <div class="sidebar-section" id="freeUserInfo" style="display: none;">
+                        <div style="background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%); padding: 12px; border-radius: 10px; font-size: 12px;">
+                            <div style="font-weight: 700; margin-bottom: 8px; color: #666;">
+                                🆓 Compte Gratuit
+                            </div>
+                            <div style="color: #666; margin-bottom: 8px; font-size: 11px;">
+                                <strong id="dailyLimit">0/50</strong> emails envoyés aujourd'hui
+                            </div>
+                            <button onclick="showProfileSettings()" style="width: 100%; padding: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700; color: white;">
+                                ⭐ Passer à Premium
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <div class="content-header">
+                        <h2>
+                            <svg viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+                            <span id="viewTitle">Boîte de réception</span>
+                        </h2>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <div class="search-box">
+                                <input type="text" id="searchInput" placeholder="Rechercher..." onkeyup="searchEmails()">
+                                <div class="search-icon">
+                                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                                </div>
+                            </div>
+                            <button class="nav-btn" onclick="showCompose()">
+                                <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                Nouveau
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Toolbar -->
+                    <div class="email-toolbar" id="emailToolbar" style="display: none;">
+                        <div class="email-checkbox" onclick="toggleSelectAll()"></div>
+                        <span id="selectedCount" style="font-size: 13px; color: var(--text-secondary);">0 sélectionné(s)</span>
+                        <div class="toolbar-separator"></div>
+                        <button class="toolbar-btn" onclick="markAsRead()">
+                            <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            Marquer comme lu
+                        </button>
+                        <button class="toolbar-btn" onclick="starSelected()">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            Favoris
+                        </button>
+                        <button class="toolbar-btn" onclick="moveToTrash()">
+                            <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            Supprimer
+                        </button>
+                    </div>
+
+                    <!-- Email List -->
+                    <div id="emailListView">
+                        <div id="emailList"></div>
+                    </div>
+
+                    <!-- Email View -->
+                    <div id="emailView" class="email-view hidden"></div>
+
+                    <!-- Compose -->
+                    <div id="composeView" class="compose-form hidden">
+                        <h3>✉️ Nouveau message</h3>
+                        <div class="form-group">
+                            <label>Destinataire</label>
+                            <input type="email" id="composeTo" placeholder="utilisateur@tartamada.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Objet</label>
+                            <input type="text" id="composeSubject" placeholder="Objet du message">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea id="composeBody" placeholder="Votre message..."></textarea>
+                        </div>
+                        
+                        <!-- Attachments Section -->
+                        <div id="composeAttachmentsSection" class="compose-attachments hidden">
+                            <div class="compose-attachments-title">
+                                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                Pièces jointes (<span id="attachmentCount">0</span>)
+                            </div>
+                            <div class="compose-attachment-list" id="composeAttachmentList"></div>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="handleSendEmail()">
+                                <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                Envoyer
+                            </button>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="fileInput" multiple onchange="handleFileSelect(event)">
+                                <label for="fileInput" class="file-input-label">
+                                    <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                    Joindre fichier
+                                </label>
+                            </div>
+                            <button class="btn btn-cancel" onclick="saveDraft()">💾 Brouillon</button>
+                            <button class="btn btn-cancel" onclick="cancelCompose()">Annuler</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let users = [];
+        let emails = [];
+        let drafts = [];
+        let currentFilter = 'inbox';
+        let selectedEmails = new Set();
+        let composeAttachments = [];
+        let customFolders = [];
+
+        // Premium limits
+        const LIMITS = {
+            free: {
+                attachmentSize: 5 * 1024 * 1024, // 5MB
+                dailyEmails: 50,
+                customFolders: 0,
+                themes: false,
+                signature: false,
+                autoReply: false,
+                statistics: false,
+                labels: 0,
+                advancedSearch: false,
+                exportEmails: false,
+                scheduleEmails: false,
+                readReceipts: false,
+                priority: false,
+                ads: true
+            },
+            premium: {
+                attachmentSize: 20 * 1024 * 1024, // 20MB
+                dailyEmails: -1, // illimité
+                customFolders: 10,
+                themes: true,
+                signature: true,
+                autoReply: true,
+                statistics: true,
+                labels: 20,
+                advancedSearch: true,
+                exportEmails: true,
+                scheduleEmails: true,
+                readReceipts: true,
+                priority: true,
+                ads: false
+            }
+        };
+
+        function getUserLimits() {
+            return currentUser?.isPremium ? LIMITS.premium : LIMITS.free;
+        }
+
+        // Labels personnalisés
+        let customLabels = [];
+        let bannerClosed = false;
+
+        function closePremiumBanner() {
+            document.getElementById('premiumBanner').style.display = 'none';
+            bannerClosed = true;
+            localStorage.setItem('premiumBannerClosed', 'true');
+        }
+
+        function showPremiumBanner() {
+            const banner = document.getElementById('premiumBanner');
+            if (banner && !currentUser.isPremium && !bannerClosed) {
+                const closed = localStorage.getItem('premiumBannerClosed');
+                if (!closed) {
+                    banner.style.display = 'flex';
+                }
+            }
+        }
+
+        // Gestion des labels
+        async function addLabel(emailId, label) {
+            if (!currentUser.isPremium) {
+                showNotification('Les labels sont une fonctionnalité Premium', 'warning');
+                showProfileSettings();
+                return;
+            }
+            
+            const email = emails.find(e => e.id === emailId);
+            if (email) {
+                if (!email.labels) email.labels = [];
+                if (!email.labels.includes(label)) {
+                    email.labels.push(label);
+                    await saveEmails();
+                    renderEmailList();
+                    showNotification('Label ajouté', 'success');
+                }
+            }
+        }
+
+        // Exporter les emails (Premium)
+        function exportEmails() {
+            if (!currentUser.isPremium) {
+                showNotification('L\'export d\'emails est une fonctionnalité Premium', 'warning');
+                showProfileSettings();
+                return;
+            }
+            
+            const userEmails = emails.filter(e => 
+                e.to === currentUser.email || e.from === currentUser.email
+            );
+            
+            const data = JSON.stringify(userEmails, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tartamada-mail-export-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showNotification('Emails exportés avec succès', 'success');
+        }
+
+        // Marquer comme prioritaire (Premium)
+        async function togglePriority(emailId) {
+            if (!currentUser.isPremium) {
+                showNotification('Les emails prioritaires sont une fonctionnalité Premium', 'warning');
+                showProfileSettings();
+                return;
+            }
+            
+            const email = emails.find(e => e.id === emailId);
+            if (email) {
+                email.priority = !email.priority;
+                await saveEmails();
+                renderEmailList();
+                showNotification(email.priority ? 'Marqué comme prioritaire' : 'Priorité retirée', 'success');
+            }
+        }
+
+        // Réponse automatique (Premium)
+        async function toggleAutoReply() {
+            if (!currentUser.isPremium) {
+                showNotification('La réponse automatique est une fonctionnalité Premium', 'warning');
+                showProfileSettings();
+                return;
+            }
+            
+            if (!currentUser.autoReply) {
+                const message = await showPrompt(
+                    'Entrez votre message de réponse automatique :',
+                    'Activer la réponse automatique',
+                    'Merci pour votre email. Je suis actuellement absent et vous répondrai dès que possible.'
+                );
+                
+                if (message) {
+                    currentUser.autoReply = {
+                        enabled: true,
+                        message: message
+                    };
+                    const userIndex = users.findIndex(u => u.id === currentUser.id);
+                    if (userIndex !== -1) {
+                        users[userIndex] = currentUser;
+                        await saveUsers();
+                        showNotification('Réponse automatique activée', 'success');
+                        showAutoReplyIndicator();
+                    }
+                }
+            } else {
+                currentUser.autoReply.enabled = !currentUser.autoReply.enabled;
+                const userIndex = users.findIndex(u => u.id === currentUser.id);
+                if (userIndex !== -1) {
+                    users[userIndex] = currentUser;
+                    await saveUsers();
+                    showNotification(
+                        currentUser.autoReply.enabled ? 'Réponse automatique activée' : 'Réponse automatique désactivée',
+                        'success'
+                    );
+                    showAutoReplyIndicator();
+                }
+            }
+        }
+
+        function showAutoReplyIndicator() {
+            const contentHeader = document.querySelector('.content-header');
+            if (!contentHeader) return;
+            
+            let indicator = document.getElementById('autoReplyIndicator');
+            
+            if (currentUser.isPremium && currentUser.autoReply?.enabled) {
+                if (!indicator) {
+                    indicator = document.createElement('div');
+                    indicator.id = 'autoReplyIndicator';
+                    indicator.className = 'auto-reply-active';
+                    indicator.innerHTML = `
+                        <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; stroke: var(--success);"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <span><strong>Réponse automatique activée</strong> - Les nouveaux emails recevront une réponse automatique</span>
+                        <button onclick="toggleAutoReply()" style="margin-left: auto; padding: 6px 12px; background: white; border: 1px solid var(--success); border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--success);">
+                            Désactiver
+                        </button>
+                    `;
+                    contentHeader.parentElement.insertBefore(indicator, contentHeader.nextSibling);
+                }
+            } else if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        // File handling
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            const limits = getUserLimits();
+            
+            for (let file of files) {
+                if (file.size > limits.attachmentSize) {
+                    const maxSize = currentUser?.isPremium ? '20MB' : '5MB';
+                    showNotification(
+                        `Le fichier "${file.name}" est trop volumineux (max ${maxSize})${!currentUser?.isPremium ? ' - Passez à Premium pour 20MB !' : ''}`, 
+                        'error'
+                    );
+                    continue;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    composeAttachments.push({
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        data: e.target.result
+                    });
+                    updateComposeAttachments();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateComposeAttachments() {
+            const section = document.getElementById('composeAttachmentsSection');
+            const list = document.getElementById('composeAttachmentList');
+            const count = document.getElementById('attachmentCount');
+            
+            if (composeAttachments.length > 0) {
+                section.classList.remove('hidden');
+                count.textContent = composeAttachments.length;
+                
+                list.innerHTML = composeAttachments.map((file, index) => `
+                    <div class="compose-attachment-item">
+                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        <span>${file.name} (${formatFileSize(file.size)})</span>
+                        <div class="compose-attachment-remove" onclick="removeAttachment(${index})">×</div>
+                    </div>
+                `).join('');
+            } else {
+                section.classList.add('hidden');
+            }
+        }
+
+        function removeAttachment(index) {
+            composeAttachments.splice(index, 1);
+            updateComposeAttachments();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        // Profile Settings
+        function showProfileSettings() {
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            
+            const avatarSrc = currentUser.avatarData || '';
+            const avatarDisplay = avatarSrc ? 
+                `<img src="${avatarSrc}" class="profile-avatar-large" alt="Avatar">` :
+                `<div class="profile-avatar-large">${currentUser.username.charAt(0).toUpperCase()}</div>`;
+            
+            // Statistiques pour premium
+            const statsSection = currentUser.isPremium ? `
+                <div class="premium-features">
+                    <h4>📊 Vos Statistiques</h4>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 16px;">
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 16px; border-radius: 12px;">
+                            <div style="font-size: 24px; font-weight: 700; color: var(--primary);">${emails.filter(e => e.from === currentUser.email).length}</div>
+                            <div style="font-size: 13px; color: var(--text-secondary);">Messages envoyés</div>
+                        </div>
+                        <div style="background: rgba(76, 175, 80, 0.1); padding: 16px; border-radius: 12px;">
+                            <div style="font-size: 24px; font-weight: 700; color: var(--success);">${emails.filter(e => e.to === currentUser.email).length}</div>
+                            <div style="font-size: 13px; color: var(--text-secondary);">Messages reçus</div>
+                        </div>
+                        <div style="background: rgba(255, 193, 7, 0.1); padding: 16px; border-radius: 12px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #ffc107;">${emails.filter(e => (e.to === currentUser.email || e.from === currentUser.email) && e.starred).length}</div>
+                            <div style="font-size: 13px; color: var(--text-secondary);">Messages favoris</div>
+                        </div>
+                        <div style="background: rgba(156, 39, 176, 0.1); padding: 16px; border-radius: 12px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #9c27b0;">${drafts.length}</div>
+                            <div style="font-size: 13px; color: var(--text-secondary);">Brouillons</div>
+                        </div>
+                    </div>
+                </div>
+            ` : '';
+            
+            // Signature pour premium
+            const signatureSection = currentUser.isPremium ? `
+                <div class="form-group">
+                    <label>✍️ Signature Email (Premium)</label>
+                    <textarea id="userSignature" placeholder="Votre signature sera ajoutée automatiquement à vos emails..." style="min-height: 80px;">${currentUser.signature || ''}</textarea>
+                </div>
+            ` : `
+                <div class="premium-features" style="background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);">
+                    <h4>✍️ Signature Email</h4>
+                    <p style="margin-top: 12px; color: var(--text-secondary); font-size: 14px;">
+                        Ajoutez une signature personnalisée à tous vos emails. 
+                        <strong>Fonctionnalité Premium uniquement.</strong>
+                    </p>
+                </div>
+            `;
+            
+            // Thèmes pour premium
+            const themeSection = currentUser.isPremium ? `
+                <div class="form-group">
+                    <label>🎨 Couleur de Thème Personnalisée (Premium)</label>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <div class="theme-option ${(!currentUser.customTheme || currentUser.customTheme === 'default') ? 'active' : ''}" 
+                             onclick="selectTheme('default')" 
+                             style="width: 60px; height: 60px; border-radius: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); cursor: pointer; border: 3px solid ${(!currentUser.customTheme || currentUser.customTheme === 'default') ? '#333' : 'transparent'};">
+                        </div>
+                        <div class="theme-option ${currentUser.customTheme === 'ocean' ? 'active' : ''}" 
+                             onclick="selectTheme('ocean')" 
+                             style="width: 60px; height: 60px; border-radius: 12px; background: linear-gradient(135deg, #0099ff 0%, #00ccff 100%); cursor: pointer; border: 3px solid ${currentUser.customTheme === 'ocean' ? '#333' : 'transparent'};">
+                        </div>
+                        <div class="theme-option ${currentUser.customTheme === 'forest' ? 'active' : ''}" 
+                             onclick="selectTheme('forest')" 
+                             style="width: 60px; height: 60px; border-radius: 12px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); cursor: pointer; border: 3px solid ${currentUser.customTheme === 'forest' ? '#333' : 'transparent'};">
+                        </div>
+                        <div class="theme-option ${currentUser.customTheme === 'sunset' ? 'active' : ''}" 
+                             onclick="selectTheme('sunset')" 
+                             style="width: 60px; height: 60px; border-radius: 12px; background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); cursor: pointer; border: 3px solid ${currentUser.customTheme === 'sunset' ? '#333' : 'transparent'};">
+                        </div>
+                        <div class="theme-option ${currentUser.customTheme === 'royal' ? 'active' : ''}" 
+                             onclick="selectTheme('royal')" 
+                             style="width: 60px; height: 60px; border-radius: 12px; background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%); cursor: pointer; border: 3px solid ${currentUser.customTheme === 'royal' ? '#333' : 'transparent'};">
+                        </div>
+                        <div class="theme-option ${currentUser.customTheme === 'rose' ? 'active' : ''}" 
+                             onclick="selectTheme('rose')" 
+                             style="width: 60px; height: 60px; border-radius: 12px; background: linear-gradient(135deg, #f857a6 0%, #ff5858 100%); cursor: pointer; border: 3px solid ${currentUser.customTheme === 'rose' ? '#333' : 'transparent'};">
+                        </div>
+                    </div>
+                </div>
+            ` : `
+                <div class="premium-features" style="background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);">
+                    <h4>🎨 Thèmes Personnalisés</h4>
+                    <p style="margin-top: 12px; color: var(--text-secondary); font-size: 14px;">
+                        Choisissez parmi 6 thèmes de couleurs exclusifs. 
+                        <strong>Fonctionnalité Premium uniquement.</strong>
+                    </p>
+                </div>
+            `;
+            
+            const premiumSection = currentUser.isPremium ? `
+                <div class="premium-features">
+                    <h4>
+                        <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; stroke: var(--premium);"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+                        Vos Avantages Premium Actifs
+                    </h4>
+                    <ul class="premium-feature-list" style="columns: 2; column-gap: 20px;">
+                        <li>✅ Photo de profil personnalisée</li>
+                        <li>✅ Badge Premium doré 👑</li>
+                        <li>✅ Pièces jointes 20MB (vs 5MB)</li>
+                        <li>✅ Envoi illimité d'emails</li>
+                        <li>✅ Signature email personnalisée</li>
+                        <li>✅ 6 thèmes de couleurs exclusifs</li>
+                        <li>✅ Statistiques détaillées</li>
+                        <li>✅ Labels colorés (20 max)</li>
+                        <li>✅ Recherche avancée</li>
+                        <li>✅ Export des emails</li>
+                        <li>✅ Emails prioritaires</li>
+                        <li>✅ Réponse automatique</li>
+                        <li>✅ Accusés de réception</li>
+                        <li>✅ Sans publicité</li>
+                        <li>✅ Support prioritaire 24/7</li>
+                        <li>✅ Stockage illimité</li>
+                    </ul>
+                    <div style="margin-top: 16px; display: flex; gap: 12px;">
+                        <button class="btn btn-primary" style="width: auto;" onclick="closeProfileModal(); toggleAutoReply();">
+                            ${currentUser.autoReply?.enabled ? '🔕 Désactiver' : '📧 Activer'} Réponse Auto
+                        </button>
+                        <button class="btn btn-cancel" style="width: auto;" onclick="closeProfileModal(); exportEmails();">
+                            📥 Exporter mes emails
+                        </button>
+                    </div>
+                </div>
+            ` : `
+                <div class="premium-features">
+                    <h4>⭐ Débloquez TOUTES les fonctionnalités Premium !</h4>
+                    <ul class="premium-feature-list" style="columns: 2; column-gap: 20px;">
+                        <li>Photo de profil personnalisée</li>
+                        <li>Badge Premium doré 👑</li>
+                        <li>Pièces jointes 20MB (vs 5MB)</li>
+                        <li>Envoi illimité (vs 50/jour)</li>
+                        <li>Signature email personnalisée</li>
+                        <li>6 thèmes de couleurs exclusifs</li>
+                        <li>Statistiques détaillées</li>
+                        <li>Labels colorés personnalisés</li>
+                        <li>Recherche avancée avec filtres</li>
+                        <li>Export des emails en JSON</li>
+                        <li>Emails prioritaires</li>
+                        <li>Réponse automatique d'absence</li>
+                        <li>Accusés de réception</li>
+                        <li>Sans publicité</li>
+                        <li>Support prioritaire 24/7</li>
+                        <li>Stockage illimité</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: white; text-align: center;">
+                        <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">4,99€/mois</div>
+                        <div style="font-size: 14px; opacity: 0.9; margin-bottom: 16px;">Sans engagement • Annulation à tout moment</div>
+                        <div style="font-size: 13px; opacity: 0.8;">💳 Paiement sécurisé • 🔒 Données protégées • 30 jours satisfait ou remboursé</div>
+                    </div>
+                    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 14px; text-align: center;">
+                        <strong>Contactez un administrateur</strong> pour activer votre compte Premium dès maintenant
+                    </p>
+                </div>
+            `;
+            
+            overlay.innerHTML = `
+                <div class="modal">
+                    <div class="profile-modal">
+                        <h3>
+                            <svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            Paramètres du profil ${currentUser.isPremium ? '<span class="premium-badge" style="margin-left: 10px;">👑 Premium</span>' : ''}
+                        </h3>
+                        
+                        <div class="profile-avatar-section">
+                            ${avatarDisplay}
+                            ${currentUser.isPremium ? `
+                                <div>
+                                    <div class="file-input-wrapper">
+                                        <input type="file" id="avatarInput" accept="image/*" onchange="handleAvatarChange(event)">
+                                        <label for="avatarInput" class="file-input-label">
+                                            <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                            Changer la photo
+                                        </label>
+                                    </div>
+                                    ${avatarSrc ? '<button class="btn btn-cancel" style="margin-top: 10px;" onclick="removeAvatar()">Supprimer la photo</button>' : ''}
+                                </div>
+                            ` : '<p style="color: var(--text-secondary); font-size: 14px;">🔒 Photo de profil disponible avec Premium</p>'}
+                        </div>
+
+                        ${premiumSection}
+                        ${statsSection}
+                        ${themeSection}
+                        ${signatureSection}
+
+                        <div class="form-group">
+                            <label>Nom d'utilisateur</label>
+                            <input type="text" value="${currentUser.username}" disabled style="background: var(--bg-main);">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Adresse email</label>
+                            <input type="text" value="${currentUser.email}" disabled style="background: var(--bg-main);">
+                        </div>
+
+                        <div class="modal-actions" style="margin-top: 30px;">
+                            ${currentUser.isPremium ? '<button class="btn btn-primary" onclick="saveProfileSettings()">Enregistrer les modifications</button>' : ''}
+                            <button class="modal-btn-cancel" onclick="closeProfileModal()">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    document.body.removeChild(overlay);
+                }
+            });
+        }
+
+        async function saveProfileSettings() {
+            if (!currentUser.isPremium) return;
+            
+            const signature = document.getElementById('userSignature')?.value || '';
+            currentUser.signature = signature;
+            
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex] = currentUser;
+                await saveUsers();
+                showNotification('Paramètres enregistrés !', 'success');
+                closeProfileModal();
+            }
+        }
+
+        function selectTheme(theme) {
+            if (!currentUser.isPremium) {
+                showNotification('Cette fonctionnalité est réservée aux membres Premium', 'warning');
+                return;
+            }
+            
+            currentUser.customTheme = theme;
+            applyCustomTheme(theme);
+            
+            // Mettre à jour visuellement
+            document.querySelectorAll('.theme-option').forEach(el => {
+                el.style.border = '3px solid transparent';
+            });
+            event.target.style.border = '3px solid #333';
+        }
+
+        function applyCustomTheme(theme) {
+            const themes = {
+                default: { primary: '#667eea', secondary: '#764ba2' },
+                ocean: { primary: '#0099ff', secondary: '#00ccff' },
+                forest: { primary: '#11998e', secondary: '#38ef7d' },
+                sunset: { primary: '#ff6b6b', secondary: '#ffa500' },
+                royal: { primary: '#8e2de2', secondary: '#4a00e0' },
+                rose: { primary: '#f857a6', secondary: '#ff5858' }
+            };
+            
+            const colors = themes[theme] || themes.default;
+            document.documentElement.style.setProperty('--primary', colors.primary);
+            document.documentElement.style.setProperty('--secondary', colors.secondary);
+        }
+
+        function closeProfileModal() {
+            const overlay = document.querySelector('.modal-overlay');
+            if (overlay) document.body.removeChild(overlay);
+        }
+
+        async function handleAvatarChange(event) {
+            if (!currentUser.isPremium) {
+                showNotification('Cette fonctionnalité est réservée aux membres Premium', 'warning');
+                return;
+            }
+
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                showNotification('L\'image est trop volumineuse (max 2MB)', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                currentUser.avatarData = e.target.result;
+                const userIndex = users.findIndex(u => u.id === currentUser.id);
+                if (userIndex !== -1) {
+                    users[userIndex] = currentUser;
+                    await saveUsers();
+                    updateNavAvatar();
+                    showNotification('Photo de profil mise à jour !', 'success');
+                    closeProfileModal();
+                    showProfileSettings();
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function removeAvatar() {
+            currentUser.avatarData = null;
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex] = currentUser;
+                await saveUsers();
+                updateNavAvatar();
+                showNotification('Photo de profil supprimée', 'success');
+                closeProfileModal();
+                showProfileSettings();
+            }
+        }
+
+        function updateNavAvatar() {
+            const navAvatar = document.getElementById('navAvatar');
+            const navUsername = document.getElementById('navUsername');
+            
+            if (currentUser.avatarData) {
+                navAvatar.innerHTML = `<img src="${currentUser.avatarData}" style="width: 100%; height: 100%; border-radius: 8px; object-fit: cover;">`;
+            } else {
+                navAvatar.textContent = currentUser.username.charAt(0).toUpperCase();
+            }
+            
+            navUsername.innerHTML = currentUser.username + (currentUser.isPremium ? ' <span class="premium-badge">👑 Premium</span>' : '');
+            
+            // Afficher la section premium/free dans la sidebar
+            const premiumSection = document.getElementById('premiumSection');
+            const freeSection = document.getElementById('freeUserInfo');
+            
+            if (premiumSection && freeSection) {
+                if (currentUser.isPremium) {
+                    premiumSection.style.display = 'block';
+                    freeSection.style.display = 'none';
+                    updatePremiumStats();
+                } else {
+                    premiumSection.style.display = 'none';
+                    freeSection.style.display = 'block';
+                    updateFreeStats();
+                }
+            }
+        }
+
+        function updateFreeStats() {
+            const today = new Date().toDateString();
+            const sentToday = emails.filter(e => 
+                e.from === currentUser.email && 
+                new Date(e.timestamp).toDateString() === today
+            ).length;
+            
+            const dailyLimitEl = document.getElementById('dailyLimit');
+            if (dailyLimitEl) {
+                dailyLimitEl.textContent = `${sentToday}/${LIMITS.free.dailyEmails}`;
+                
+                // Changer la couleur selon le pourcentage
+                const percentage = (sentToday / LIMITS.free.dailyEmails) * 100;
+                if (percentage >= 90) {
+                    dailyLimitEl.style.color = '#f44336';
+                } else if (percentage >= 70) {
+                    dailyLimitEl.style.color = '#ff9800';
+                } else {
+                    dailyLimitEl.style.color = '#4caf50';
+                }
+            }
+        }
+
+        function updatePremiumStats() {
+            const today = new Date().toDateString();
+            const sentToday = emails.filter(e => 
+                e.from === currentUser.email && 
+                new Date(e.timestamp).toDateString() === today
+            ).length;
+            const starred = emails.filter(e => 
+                (e.to === currentUser.email || e.from === currentUser.email) && 
+                e.starred && !e.deleted
+            ).length;
+            
+            const sentTodayEl = document.getElementById('sentToday');
+            const starredCountEl = document.getElementById('starredCount');
+            const draftsCountEl = document.getElementById('draftsCount');
+            
+            if (sentTodayEl) sentTodayEl.textContent = sentToday;
+            if (starredCountEl) starredCountEl.textContent = starred;
+            if (draftsCountEl) draftsCountEl.textContent = drafts.length;
+        }
+
+        // Theme Management
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            const sunIcon = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+            const moonIcon = '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+            
+            const icon = isDark ? sunIcon : moonIcon;
+            if (document.getElementById('themeIcon')) document.getElementById('themeIcon').innerHTML = icon;
+            if (document.getElementById('themeIcon2')) document.getElementById('themeIcon2').innerHTML = icon;
+        }
+
+        function loadTheme() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                const sunIcon = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+                if (document.getElementById('themeIcon')) document.getElementById('themeIcon').innerHTML = sunIcon;
+            }
+        }
+
+        // Email Selection
+        function toggleEmailSelection(emailId, event) {
+            event.stopPropagation();
+            if (selectedEmails.has(emailId)) {
+                selectedEmails.delete(emailId);
+            } else {
+                selectedEmails.add(emailId);
+            }
+            updateToolbar();
+            renderEmailList();
+        }
+
+        function toggleSelectAll() {
+            const filteredEmails = getFilteredEmails();
+            if (selectedEmails.size === filteredEmails.length) {
+                selectedEmails.clear();
+            } else {
+                filteredEmails.forEach(email => selectedEmails.add(email.id));
+            }
+            updateToolbar();
+            renderEmailList();
+        }
+
+        function updateToolbar() {
+            const toolbar = document.getElementById('emailToolbar');
+            const count = selectedEmails.size;
+            
+            if (count > 0) {
+                toolbar.style.display = 'flex';
+                document.getElementById('selectedCount').textContent = `${count} sélectionné(s)`;
+            } else {
+                toolbar.style.display = 'none';
+            }
+        }
+
+        // Email Actions
+        function markAsRead() {
+            selectedEmails.forEach(id => {
+                const email = emails.find(e => e.id === id);
+                if (email) email.read = true;
+            });
+            saveEmails();
+            const count = selectedEmails.size;
+            selectedEmails.clear();
+            updateToolbar();
+            renderEmailList();
+            showNotification(`${count} message(s) marqué(s) comme lu(s)`, 'success');
+        }
+
+        function starSelected() {
+            selectedEmails.forEach(id => {
+                const email = emails.find(e => e.id === id);
+                if (email) email.starred = !email.starred;
+            });
+            saveEmails();
+            selectedEmails.clear();
+            updateToolbar();
+            renderEmailList();
+            showNotification('Favoris mis à jour', 'success');
+        }
+
+        function moveToTrash() {
+            selectedEmails.forEach(id => {
+                const email = emails.find(e => e.id === id);
+                if (email) email.deleted = true;
+            });
+            saveEmails();
+            const count = selectedEmails.size;
+            selectedEmails.clear();
+            updateToolbar();
+            renderEmailList();
+            showNotification(`${count} message(s) déplacé(s) vers la corbeille`, 'success');
+        }
+
+        function toggleStar(emailId, event) {
+            event.stopPropagation();
+            const email = emails.find(e => e.id === emailId);
+            if (email) {
+                email.starred = !email.starred;
+                saveEmails();
+                renderEmailList();
+            }
+        }
+
+        function deleteEmail(emailId, event) {
+            event.stopPropagation();
+            const email = emails.find(e => e.id === emailId);
+            if (email) {
+                email.deleted = true;
+                saveEmails();
+                renderEmailList();
+                showNotification('Message déplacé vers la corbeille', 'success');
+            }
+        }
+
+        async function saveDraft() {
+            const to = document.getElementById('composeTo').value;
+            const subject = document.getElementById('composeSubject').value;
+            const body = document.getElementById('composeBody').value;
+
+            if (!to && !subject && !body) {
+                showNotification('Le brouillon est vide', 'warning');
+                return;
+            }
+
+            const draft = {
+                id: Date.now().toString(),
+                to,
+                subject,
+                body,
+                attachments: [...composeAttachments],
+                timestamp: new Date().toISOString(),
+                isDraft: true
+            };
+
+            drafts.push(draft);
+            await storage.set('tartamada_drafts', JSON.stringify(drafts));
+            
+            showNotification('Brouillon sauvegardé', 'success');
+            composeAttachments = [];
+            cancelCompose();
+        }
+
+        function getFilteredEmails() {
+            let filtered = [];
+            
+            switch(currentFilter) {
+                case 'inbox':
+                    filtered = emails.filter(e => e.to === currentUser.email && !e.deleted);
+                    break;
+                case 'unread':
+                    filtered = emails.filter(e => e.to === currentUser.email && !e.read && !e.deleted);
+                    break;
+                case 'starred':
+                    filtered = emails.filter(e => (e.to === currentUser.email || e.from === currentUser.email) && e.starred && !e.deleted);
+                    break;
+                case 'sent':
+                    filtered = emails.filter(e => e.from === currentUser.email && !e.deleted);
+                    break;
+                case 'drafts':
+                    filtered = drafts;
+                    break;
+                case 'trash':
+                    filtered = emails.filter(e => e.deleted && (e.to === currentUser.email || e.from === currentUser.email));
+                    break;
+            }
+            
+            return filtered;
+        }
+
+        // Notification System
+        function showNotification(message, type = 'info', title = '') {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            const icons = {
+                success: '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
+                error: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+                info: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+                warning: '<svg viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+            };
+
+            const titles = {
+                success: title || 'Succès',
+                error: title || 'Erreur',
+                info: title || 'Information',
+                warning: title || 'Attention'
+            };
+
+            notification.innerHTML = `
+                <div class="notification-icon">${icons[type]}</div>
+                <div class="notification-content">
+                    <div class="notification-title">${titles[type]}</div>
+                    <div class="notification-message">${message}</div>
+                </div>
+                <button class="notification-close">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            `;
+
+            container.appendChild(notification);
+
+            const closeBtn = notification.querySelector('.notification-close');
+            closeBtn.addEventListener('click', () => removeNotification(notification));
+
+            setTimeout(() => removeNotification(notification), 5000);
+        }
+
+        function removeNotification(notification) {
+            notification.style.animation = 'slideOut 0.3s ease-out';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }
+
+        // Confirmation Modal
+        function showConfirm(message, title = 'Confirmation') {
+            return new Promise((resolve) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'modal-overlay';
+                
+                overlay.innerHTML = `
+                    <div class="modal">
+                        <div class="modal-header">
+                            <div class="modal-icon">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            </div>
+                            <div class="modal-title">${title}</div>
+                        </div>
+                        <div class="modal-message">${message}</div>
+                        <div class="modal-actions">
+                            <button class="modal-btn modal-btn-cancel">Annuler</button>
+                            <button class="modal-btn modal-btn-confirm">Confirmer</button>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(overlay);
+
+                overlay.querySelector('.modal-btn-cancel').addEventListener('click', () => {
+                    document.body.removeChild(overlay);
+                    resolve(false);
+                });
+
+                overlay.querySelector('.modal-btn-confirm').addEventListener('click', () => {
+                    document.body.removeChild(overlay);
+                    resolve(true);
+                });
+
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        document.body.removeChild(overlay);
+                        resolve(false);
+                    }
+                });
+            });
+        }
+
+        // Prompt Modal
+        function showPrompt(message, title = 'Saisie requise', defaultValue = '') {
+            return new Promise((resolve) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'modal-overlay';
+                
+                overlay.innerHTML = `
+                    <div class="modal">
+                        <div class="modal-header">
+                            <div class="modal-icon" style="background: rgba(102, 126, 234, 0.1); color: var(--primary);">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                            </div>
+                            <div class="modal-title">${title}</div>
+                        </div>
+                        <div class="modal-message">${message}</div>
+                        <input type="text" class="prompt-input" value="${defaultValue}" placeholder="Entrez votre réponse...">
+                        <div class="modal-actions">
+                            <button class="modal-btn modal-btn-cancel">Annuler</button>
+                            <button class="modal-btn modal-btn-confirm" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Valider</button>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(overlay);
+
+                const input = overlay.querySelector('.prompt-input');
+                input.focus();
+                input.select();
+
+                overlay.querySelector('.modal-btn-cancel').addEventListener('click', () => {
+                    document.body.removeChild(overlay);
+                    resolve(null);
+                });
+
+                overlay.querySelector('.modal-btn-confirm').addEventListener('click', () => {
+                    const value = input.value.trim();
+                    document.body.removeChild(overlay);
+                    resolve(value || null);
+                });
+
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        const value = input.value.trim();
+                        document.body.removeChild(overlay);
+                        resolve(value || null);
+                    }
+                });
+
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        document.body.removeChild(overlay);
+                        resolve(null);
+                    }
+                });
+            });
+        }
+
+        // Storage wrapper for local compatibility
+        const storage = {
+            async get(key) {
+                try {
+                    if (typeof window.storage !== 'undefined') {
+                        return await window.storage.get(key);
+                    } else {
+                        const value = localStorage.getItem(key);
+                        return value ? { key, value } : null;
+                    }
+                } catch (error) {
+                    const value = localStorage.getItem(key);
+                    return value ? { key, value } : null;
+                }
+            },
+            async set(key, value) {
+                try {
+                    if (typeof window.storage !== 'undefined') {
+                        return await window.storage.set(key, value);
+                    } else {
+                        localStorage.setItem(key, value);
+                        return { key, value };
+                    }
+                } catch (error) {
+                    localStorage.setItem(key, value);
+                    return { key, value };
+                }
+            }
+        };
+
+        // Initialize app
+        async function init() {
+            loadTheme();
+            await loadData();
+        }
+
+        // Load data from storage
+        async function loadData() {
+            try {
+                const usersData = await storage.get('tartamada_users');
+                const emailsData = await storage.get('tartamada_emails');
+                const draftsData = await storage.get('tartamada_drafts');
+                
+                users = usersData ? JSON.parse(usersData.value) : [];
+                emails = emailsData ? JSON.parse(emailsData.value) : [];
+                drafts = draftsData ? JSON.parse(draftsData.value) : [];
+
+                if (!users.find(u => u.email === 'annaeg.qg@tartamada.com')) {
+                    users.push({
+                        id: 'admin-001',
+                        email: 'annaeg.qg@tartamada.com',
+                        username: 'Annaëg QG',
+                        password: 'cachou.21',
+                        isAdmin: true,
+                        isPremium: true,
+                        createdAt: new Date().toISOString(),
+                        avatarData: null,
+                        signature: 'Annaëg QG\nAdministrateur Tartamada Mail\n✨ Toujours à votre service',
+                        customTheme: 'default',
+                        autoReply: null
+                    });
+                    await saveUsers();
+                } else {
+                    // Mettre à jour les utilisateurs existants avec les nouveaux champs
+                    users = users.map(u => ({
+                        ...u,
+                        signature: u.signature || '',
+                        customTheme: u.customTheme || 'default',
+                        autoReply: u.autoReply || null
+                    }));
+                    await saveUsers();
+                }
+                
+                console.log('Données chargées:', users.length, 'utilisateurs');
+            } catch (error) {
+                console.error('Error loading data:', error);
+                users = [{
+                    id: 'admin-001',
+                    email: 'annaeg.qg@tartamada.com',
+                    username: 'Annaëg QG',
+                    password: 'cachou.21',
+                    isAdmin: true,
+                    isPremium: true,
+                    createdAt: new Date().toISOString(),
+                    avatarData: null,
+                    signature: 'Annaëg QG\nAdministrateur Tartamada Mail\n✨ Toujours à votre service',
+                    customTheme: 'default'
+                }];
+                await saveUsers();
+            }
+        }
+
+        async function saveUsers() {
+            await storage.set('tartamada_users', JSON.stringify(users));
+        }
+
+        async function saveEmails() {
+            await storage.set('tartamada_emails', JSON.stringify(emails));
+        }
+
+        // Auth functions
+        function showSignup() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
+
+        document.getElementById('signupUsername')?.addEventListener('input', (e) => {
+            const username = e.target.value.toLowerCase().replace(/\s+/g, '');
+            document.getElementById('emailPreview').textContent = username + '@tartamada.com';
+        });
+
+        // Admin functions
+        function showAdmin() {
+            console.log('Affichage de la page admin pour:', currentUser);
+            
+            try {
+                // Cacher les autres pages
+                const authPage = document.getElementById('authPage');
+                const inboxPage = document.getElementById('inboxPage');
+                const adminPage = document.getElementById('adminPage');
+                
+                if (authPage) authPage.classList.add('hidden');
+                if (inboxPage) inboxPage.classList.add('hidden');
+                if (adminPage) {
+                    adminPage.classList.remove('hidden');
+                    console.log('Page admin affichée');
+                }
+                
+                // Mettre à jour le nom
+                const adminNameEl = document.getElementById('adminName');
+                if (adminNameEl) {
+                    adminNameEl.textContent = currentUser.username;
+                }
+                
+                // Mettre à jour les stats et la liste
+                setTimeout(() => {
+                    updateAdminStats();
+                    renderUserList();
+                }, 100);
+                
+            } catch (error) {
+                console.error('Erreur lors de l\'affichage de la page admin:', error);
+                showNotification('Erreur lors du chargement de la page admin', 'error');
+            }
+        }
+
+        function updateAdminStats() {
+            try {
+                const totalUsersEl = document.getElementById('totalUsers');
+                const premiumUsersEl = document.getElementById('premiumUsers');
+                const totalEmailsEl = document.getElementById('totalEmails');
+                
+                if (totalUsersEl) {
+                    totalUsersEl.textContent = users.length;
+                    console.log('Total utilisateurs:', users.length);
+                }
+                if (premiumUsersEl) {
+                    const premiumCount = users.filter(u => u.isPremium).length;
+                    premiumUsersEl.textContent = premiumCount;
+                    console.log('Utilisateurs premium:', premiumCount);
+                }
+                if (totalEmailsEl) {
+                    totalEmailsEl.textContent = emails.length;
+                    console.log('Total emails:', emails.length);
+                }
+            } catch (error) {
+                console.error('Erreur lors de la mise à jour des stats:', error);
+            }
+        }
+
+        function renderUserList() {
+            console.log('Rendu de la liste des utilisateurs:', users.length, 'utilisateurs');
+            const container = document.getElementById('userList');
+            if (!container) {
+                console.error('Container userList non trouvé!');
+                return;
+            }
+            
+            container.innerHTML = '';
+
+            if (users.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 40px;">Aucun utilisateur trouvé</p>';
+                return;
+            }
+
+            users.forEach(user => {
+                console.log('Affichage utilisateur:', user.username);
+                const avatarClass = user.isAdmin ? 'admin' : user.isPremium ? 'premium' : 'regular';
+                
+                let avatarDisplay;
+                if (user.avatarData) {
+                    avatarDisplay = `<img src="${user.avatarData}" class="user-avatar ${avatarClass}" style="width: 56px; height: 56px; border-radius: 14px; object-fit: cover;" alt="${user.username}">`;
+                } else {
+                    avatarDisplay = `<div class="user-avatar ${avatarClass}">${user.username.charAt(0).toUpperCase()}</div>`;
+                }
+
+                const badges = [];
+                if (user.isAdmin) badges.push('<span class="badge admin">Admin</span>');
+                if (user.isPremium) badges.push('<span class="badge premium">Premium</span>');
+
+                const actions = !user.isAdmin ? `
+                    <div class="user-actions">
+                        <button class="action-btn premium" onclick="togglePremium('${user.id}')">
+                            ${user.isPremium ? '⭐ Retirer Premium' : '⭐ Activer Premium'}
+                        </button>
+                        <button class="action-btn reset" onclick="resetPassword('${user.id}')">
+                            🔒 MDP
+                        </button>
+                        <button class="action-btn delete" onclick="deleteUser('${user.id}')">
+                            🗑️ Supprimer
+                        </button>
+                    </div>
+                ` : '<p style="color: var(--text-secondary); font-size: 13px;">Compte administrateur</p>';
+
+                const userCard = document.createElement('div');
+                userCard.className = 'user-card';
+                userCard.innerHTML = `
+                    <div class="user-info">
+                        ${avatarDisplay}
+                        <div class="user-details">
+                            <h4>${user.username}</h4>
+                            <p>${user.email}</p>
+                            <div class="user-badges">${badges.join('')}</div>
+                        </div>
+                    </div>
+                    ${actions}
+                `;
+                container.appendChild(userCard);
+            });
+            
+            console.log('Liste des utilisateurs rendue avec succès');
+        }
+
+        async function togglePremium(userId) {
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                user.isPremium = !user.isPremium;
+                await saveUsers();
+                updateAdminStats();
+                renderUserList();
+                showNotification(
+                    `Le statut Premium de ${user.username} a été ${user.isPremium ? 'activé' : 'désactivé'}`,
+                    'success'
+                );
+            }
+        }
+
+        async function resetPassword(userId) {
+            const newPassword = await showPrompt('Entrez le nouveau mot de passe :', 'Réinitialisation du mot de passe');
+            if (newPassword) {
+                const user = users.find(u => u.id === userId);
+                if (user) {
+                    user.password = newPassword;
+                    await saveUsers();
+                    showNotification(`Le mot de passe de ${user.username} a été modifié`, 'success');
+                }
+            }
+        }
+
+        async function deleteUser(userId) {
+            const confirmed = await showConfirm(
+                'Cette action est irréversible. Toutes les données de cet utilisateur seront supprimées.',
+                'Supprimer ce compte ?'
+            );
+            
+            if (confirmed) {
+                const user = users.find(u => u.id === userId);
+                const username = user ? user.username : 'Utilisateur';
+                users = users.filter(u => u.id !== userId);
+                await saveUsers();
+                updateAdminStats();
+                renderUserList();
+                showNotification(`Le compte de ${username} a été supprimé`, 'success');
+            }
+        }
+
+        async function handleSignup() {
+            const username = document.getElementById('signupUsername').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupConfirm').value;
+
+            if (password !== confirm) {
+                showNotification('Les mots de passe ne correspondent pas', 'error');
+                return;
+            }
+
+            if (username.length < 3) {
+                showNotification('Le nom d\'utilisateur doit contenir au moins 3 caractères', 'error');
+                return;
+            }
+
+            const email = username.toLowerCase().replace(/\s+/g, '') + '@tartamada.com';
+
+            if (users.find(u => u.email === email)) {
+                showNotification('Cet utilisateur existe déjà', 'error');
+                return;
+            }
+
+            users.push({
+                id: Date.now().toString(),
+                email,
+                username,
+                password,
+                isAdmin: false,
+                isPremium: false,
+                createdAt: new Date().toISOString(),
+                avatarData: null,
+                signature: '',
+                customTheme: 'default',
+                autoReply: null
+            });
+
+            await saveUsers();
+            showNotification(`Votre adresse : ${email}`, 'success', 'Compte créé avec succès !');
+            
+            document.getElementById('signupUsername').value = '';
+            document.getElementById('signupPassword').value = '';
+            document.getElementById('signupConfirm').value = '';
+            showLogin();
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            console.log('Tentative de connexion avec:', email);
+
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                console.log('Utilisateur trouvé:', user.username, 'Admin:', user.isAdmin);
+                currentUser = user;
+                
+                const authPage = document.getElementById('authPage');
+                if (authPage) authPage.classList.add('hidden');
+                
+                showNotification(`Bienvenue ${user.username} !`, 'success', 'Connexion réussie');
+                
+                if (user.isAdmin) {
+                    console.log('Redirection vers page admin');
+                    showAdmin();
+                } else {
+                    console.log('Redirection vers inbox');
+                    showInbox();
+                }
+                
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+                
+                if (!user.isAdmin) {
+                    updateNavAvatar();
+                }
+            } else {
+                console.log('Échec de connexion');
+                showNotification('Vérifiez vos identifiants', 'error', 'Échec de connexion');
+            }
+        }
+
+        function handleLogout() {
+            const username = currentUser.username;
+            currentUser = null;
+            selectedEmails.clear();
+            document.getElementById('adminPage').classList.add('hidden');
+            document.getElementById('inboxPage').classList.add('hidden');
+            document.getElementById('authPage').classList.remove('hidden');
+            showLogin();
+            showNotification(`À bientôt ${username} !`, 'info', 'Déconnexion');
+        }
+
+        // Admin functions
+        function updateAdminStats() {
+            document.getElementById('totalUsers').textContent = users.length;
+            document.getElementById('premiumUsers').textContent = users.filter(u => u.isPremium).length;
+            document.getElementById('totalEmails').textContent = emails.length;
+        }
+
+        function renderUserList() {
+            console.log('Rendu de la liste des utilisateurs:', users.length, 'utilisateurs');
+            const container = document.getElementById('userList');
+            if (!container) {
+                console.error('Container userList non trouvé!');
+                return;
+            }
+            
+            container.innerHTML = '';
+
+            if (users.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 40px;">Aucun utilisateur trouvé</p>';
+                return;
+            }
+
+            users.forEach(user => {
+                console.log('Affichage utilisateur:', user.username);
+                const avatarClass = user.isAdmin ? 'admin' : user.isPremium ? 'premium' : 'regular';
+                
+                let avatarDisplay;
+                if (user.avatarData) {
+                    avatarDisplay = `<img src="${user.avatarData}" class="user-avatar ${avatarClass}" style="width: 56px; height: 56px; border-radius: 14px; object-fit: cover;" alt="${user.username}">`;
+                } else {
+                    avatarDisplay = `<div class="user-avatar ${avatarClass}">${user.username.charAt(0).toUpperCase()}</div>`;
+                }
+
+                const badges = [];
+                if (user.isAdmin) badges.push('<span class="badge admin">Admin</span>');
+                if (user.isPremium) badges.push('<span class="badge premium">Premium</span>');
+
+                const actions = !user.isAdmin ? `
+                    <div class="user-actions">
+                        <button class="action-btn premium" onclick="togglePremium('${user.id}')">
+                            ${user.isPremium ? '⭐ Retirer Premium' : '⭐ Activer Premium'}
+                        </button>
+                        <button class="action-btn reset" onclick="resetPassword('${user.id}')">
+                            🔒 MDP
+                        </button>
+                        <button class="action-btn delete" onclick="deleteUser('${user.id}')">
+                            🗑️ Supprimer
+                        </button>
+                    </div>
+                ` : '<p style="color: var(--text-secondary); font-size: 13px;">Compte administrateur</p>';
+
+                const userCard = document.createElement('div');
+                userCard.className = 'user-card';
+                userCard.innerHTML = `
+                    <div class="user-info">
+                        ${avatarDisplay}
+                        <div class="user-details">
+                            <h4>${user.username}</h4>
+                            <p>${user.email}</p>
+                            <div class="user-badges">${badges.join('')}</div>
+                        </div>
+                    </div>
+                    ${actions}
+                `;
+                container.appendChild(userCard);
+            });
+            
+            console.log('Liste des utilisateurs rendue avec succès');
+        }
+
+        async function togglePremium(userId) {
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                user.isPremium = !user.isPremium;
+                await saveUsers();
+                updateAdminStats();
+                renderUserList();
+                showNotification(
+                    `Le statut Premium de ${user.username} a été ${user.isPremium ? 'activé' : 'désactivé'}`,
+                    'success'
+                );
+            }
+        }
+
+        async function resetPassword(userId) {
+            const newPassword = await showPrompt('Entrez le nouveau mot de passe :', 'Réinitialisation du mot de passe');
+            if (newPassword) {
+                const user = users.find(u => u.id === userId);
+                if (user) {
+                    user.password = newPassword;
+                    await saveUsers();
+                    showNotification(`Le mot de passe de ${user.username} a été modifié`, 'success');
+                }
+            }
+        }
+
+        async function deleteUser(userId) {
+            const confirmed = await showConfirm(
+                'Cette action est irréversible. Toutes les données de cet utilisateur seront supprimées.',
+                'Supprimer ce compte ?'
+            );
+            
+            if (confirmed) {
+                const user = users.find(u => u.id === userId);
+                const username = user ? user.username : 'Utilisateur';
+                users = users.filter(u => u.id !== userId);
+                await saveUsers();
+                updateAdminStats();
+                renderUserList();
+                showNotification(`Le compte de ${username} a été supprimé`, 'success');
+            }
+        }
+
+        // Inbox functions
+        function showInbox() {
+            document.getElementById('authPage').classList.add('hidden');
+            document.getElementById('adminPage').classList.add('hidden');
+            document.getElementById('inboxPage').classList.remove('hidden');
+            
+            document.getElementById('userEmail').textContent = currentUser.email;
+            document.getElementById('adminBtn').style.display = currentUser.isAdmin ? 'flex' : 'none';
+            
+            document.getElementById('emailListView').classList.remove('hidden');
+            document.getElementById('emailView').classList.add('hidden');
+            document.getElementById('composeView').classList.add('hidden');
+            
+            currentFilter = 'inbox';
+            selectedEmails.clear();
+            updateToolbar();
+            updateNavAvatar();
+            renderEmailList();
+            
+            // Appliquer le thème personnalisé si premium
+            if (currentUser.isPremium && currentUser.customTheme) {
+                applyCustomTheme(currentUser.customTheme);
+            }
+            
+            // Afficher la bannière premium pour les non-premium
+            setTimeout(() => {
+                if (!currentUser.isPremium) {
+                    showPremiumBanner();
+                }
+            }, 2000);
+            
+            // Afficher l'indicateur de réponse automatique
+            if (currentUser.isPremium) {
+                setTimeout(() => showAutoReplyIndicator(), 500);
+            }
+            
+            // Afficher les limites pour les non-premium
+            if (!currentUser.isPremium) {
+                const today = new Date().toDateString();
+                const todayEmails = emails.filter(e => 
+                    e.from === currentUser.email && 
+                    new Date(e.timestamp).toDateString() === today
+                ).length;
+                const remaining = LIMITS.free.dailyEmails - todayEmails;
+                
+                if (remaining <= 10 && remaining > 0) {
+                    setTimeout(() => {
+                        showNotification(
+                            `⚠️ Il vous reste ${remaining} emails à envoyer aujourd'hui. Passez à Premium pour un envoi illimité !`,
+                            'warning',
+                            'Limite d\'envoi'
+                        );
+                    }, 3000);
+                }
+            }
+        }
+
+        function filterEmails(type) {
+            currentFilter = type;
+            selectedEmails.clear();
+            updateToolbar();
+            
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.sidebar-item').classList.add('active');
+            
+            const titles = {
+                inbox: 'Boîte de réception',
+                unread: 'Messages non lus',
+                starred: 'Favoris',
+                sent: 'Messages envoyés',
+                drafts: 'Brouillons',
+                trash: 'Corbeille'
+            };
+            document.getElementById('viewTitle').textContent = titles[type] || 'Boîte de réception';
+            
+            document.getElementById('emailListView').classList.remove('hidden');
+            document.getElementById('emailView').classList.add('hidden');
+            document.getElementById('composeView').classList.add('hidden');
+            
+            renderEmailList();
+        }
+
+        function renderEmailList() {
+            const filteredEmails = getFilteredEmails();
+            const container = document.getElementById('emailList');
+            if (!container) return;
+            
+            const inboxCount = emails.filter(e => e.to === currentUser.email && !e.deleted).length;
+            const unreadCount = emails.filter(e => e.to === currentUser.email && !e.read && !e.deleted).length;
+            
+            const inboxBadgeEl = document.getElementById('inboxBadge');
+            const unreadBadgeEl = document.getElementById('unreadBadge');
+            
+            if (inboxBadgeEl) inboxBadgeEl.textContent = inboxCount;
+            if (unreadBadgeEl) unreadBadgeEl.textContent = unreadCount;
+            
+            // Mettre à jour les stats premium
+            if (currentUser?.isPremium) {
+                updatePremiumStats();
+            } else {
+                updateFreeStats();
+            }
+
+            if (filteredEmails.length === 0) {
+                const emptyMessages = {
+                    inbox: 'Aucun message dans votre boîte de réception',
+                    unread: 'Tous vos messages sont lus',
+                    starred: 'Aucun message en favoris',
+                    sent: 'Vous n\'avez envoyé aucun message',
+                    drafts: 'Aucun brouillon sauvegardé',
+                    trash: 'La corbeille est vide'
+                };
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+                        <h3>${emptyMessages[currentFilter]}</h3>
+                        <p>Commencez à échanger avec vos contacts</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+            filteredEmails.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .forEach(email => {
+                    const displayEmail = currentFilter === 'sent' ? email.to : email.from;
+                    const sender = users.find(u => u.email === displayEmail);
+                    const isSelected = selectedEmails.has(email.id);
+                    const isStarred = email.starred;
+                    const isUnread = !email.read && email.to === currentUser.email;
+                    const hasAttachments = email.attachments && email.attachments.length > 0;
+                    const isPriority = email.priority && currentUser.isPremium;
+                    const labels = email.labels || [];
+                    
+                    const emailItem = document.createElement('div');
+                    emailItem.className = `email-item ${isUnread ? 'unread' : ''}`;
+                    emailItem.onclick = () => viewEmail(email.id);
+                    emailItem.style.position = 'relative';
+                    
+                    let avatarHTML;
+                    if (sender && sender.avatarData) {
+                        avatarHTML = `<img src="${sender.avatarData}" class="email-avatar" alt="${displayEmail}" style="width: 48px; height: 48px; border-radius: 12px; object-fit: cover;">`;
+                    } else {
+                        avatarHTML = `<div class="email-avatar">${displayEmail.charAt(0).toUpperCase()}</div>`;
+                    }
+                    
+                    const labelsHTML = labels.length > 0 ? labels.map(label => 
+                        `<span class="email-label" style="background: ${label.color}20; color: ${label.color}; border: 1px solid ${label.color};">
+                            <span class="label-dot" style="background: ${label.color};"></span>
+                            ${label.name}
+                        </span>`
+                    ).join('') : '';
+                    
+                    emailItem.innerHTML = `
+                        ${isPriority ? '<div class="priority-indicator"></div>' : ''}
+                        <div class="email-checkbox ${isSelected ? 'checked' : ''}" onclick="event.stopPropagation(); toggleEmailSelection('${email.id}', event)"></div>
+                        ${avatarHTML}
+                        <div class="email-content">
+                            <div class="email-header">
+                                <span class="email-from">
+                                    ${isPriority ? '🔴 ' : ''}${displayEmail}
+                                    ${hasAttachments ? '<span class="email-attachments-indicator"><svg viewBox="0 0 24 24" style="width: 14px; height: 14px;"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>' + email.attachments.length + '</span>' : ''}
+                                    ${labelsHTML}
+                                </span>
+                                <span class="email-date">${new Date(email.timestamp).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+                            </div>
+                            <div class="email-subject">${email.subject || '(Pas d\'objet)'}</div>
+                            <div class="email-preview">${email.body}</div>
+                        </div>
+                        <div class="email-actions">
+                            ${currentUser.isPremium ? `<button class="email-action-btn" onclick="event.stopPropagation(); togglePriority('${email.id}')" title="Marquer comme prioritaire">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            </button>` : ''}
+                            <button class="email-action-btn ${isStarred ? 'starred' : ''}" onclick="event.stopPropagation(); toggleStar('${email.id}', event)">
+                                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </button>
+                            <button class="email-action-btn" onclick="event.stopPropagation(); deleteEmail('${email.id}', event)">
+                                <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                    `;
+                    
+                    container.appendChild(emailItem);
+                });
+        }
+
+        function searchEmails() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.email-item');
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(query) ? 'flex' : 'none';
+            });
+        }
+
+        function viewEmail(emailId) {
+            const email = emails.find(e => e.id === emailId);
+            if (!email) return;
+
+            if (email.to === currentUser.email && !email.read) {
+                email.read = true;
+                saveEmails();
+            }
+
+            document.getElementById('emailListView').classList.add('hidden');
+            document.getElementById('emailView').classList.remove('hidden');
+
+            const displayEmail = currentFilter === 'sent' ? email.to : email.from;
+            const sender = users.find(u => u.email === displayEmail);
+            
+            const avatarDisplay = sender && sender.avatarData ?
+                `<img src="${sender.avatarData}" class="sender-avatar" alt="${displayEmail}">` :
+                `<div class="sender-avatar">${displayEmail.charAt(0).toUpperCase()}</div>`;
+
+            const attachmentsHTML = email.attachments && email.attachments.length > 0 ? `
+                <div class="email-attachments">
+                    <h4>
+                        <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                        Pièces jointes (${email.attachments.length})
+                    </h4>
+                    <div class="attachment-list">
+                        ${email.attachments.map(att => {
+                            const isImage = att.type.startsWith('image/');
+                            return `
+                                <div class="attachment-item" onclick="downloadAttachment('${att.name}', '${att.data}')">
+                                    ${isImage ? 
+                                        `<img src="${att.data}" class="attachment-preview" alt="${att.name}">` :
+                                        `<div class="attachment-icon">
+                                            <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                        </div>`
+                                    }
+                                    <div class="attachment-info">
+                                        <div class="attachment-name">${att.name}</div>
+                                        <div class="attachment-size">${formatFileSize(att.size)}</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            ` : '';
+
+            document.getElementById('emailView').innerHTML = `
+                <button class="back-btn" onclick="filterEmails('${currentFilter}')">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                    Retour
+                </button>
+                <div class="email-view-header">
+                    <h3 class="email-view-title">${email.subject || '(Pas d\'objet)'}</h3>
+                    <div class="email-view-meta">
+                        <div class="email-sender">
+                            ${avatarDisplay}
+                            <div>
+                                <div><strong>${currentFilter === 'sent' ? 'À' : 'De'}: </strong>${displayEmail}</div>
+                                <div style="color: #999; font-size: 13px;">${new Date(email.timestamp).toLocaleString('fr-FR')}</div>
+                            </div>
+                        </div>
+                        <div class="email-view-actions">
+                            <button class="email-action-btn ${email.starred ? 'starred' : ''}" onclick="toggleStar('${email.id}', event); viewEmail('${email.id}')">
+                                <svg viewBox="0 0 24 24" style="${email.starred ? 'fill: #ffc107;' : ''}"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-view-body">${email.body}</div>
+                ${attachmentsHTML}
+            `;
+        }
+
+        function downloadAttachment(filename, dataUrl) {
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = filename;
+            link.click();
+        }
+
+        function showCompose() {
+            document.getElementById('emailListView').classList.add('hidden');
+            document.getElementById('emailView').classList.add('hidden');
+            document.getElementById('composeView').classList.remove('hidden');
+            
+            document.getElementById('composeTo').value = '';
+            document.getElementById('composeSubject').value = '';
+            document.getElementById('composeBody').value = '';
+            composeAttachments = [];
+            updateComposeAttachments();
+            
+            // Afficher les limites
+            const limits = getUserLimits();
+            const maxSize = currentUser?.isPremium ? '20MB' : '5MB';
+            const composeView = document.getElementById('composeView');
+            
+            let limitInfo = composeView.querySelector('.limit-info');
+            if (!limitInfo) {
+                limitInfo = document.createElement('div');
+                limitInfo.className = 'limit-info';
+                limitInfo.style.cssText = 'background: rgba(102, 126, 234, 0.1); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; color: var(--text-secondary);';
+                composeView.insertBefore(limitInfo, composeView.querySelector('.form-group'));
+            }
+            
+            if (currentUser?.isPremium) {
+                limitInfo.innerHTML = `
+                    <strong style="color: var(--premium);">👑 Compte Premium</strong><br>
+                    • Pièces jointes : jusqu'à ${maxSize}<br>
+                    • Envoi illimité d'emails<br>
+                    • Signature automatique activée
+                `;
+            } else {
+                const today = new Date().toDateString();
+                const todayEmails = emails.filter(e => 
+                    e.from === currentUser.email && 
+                    new Date(e.timestamp).toDateString() === today
+                ).length;
+                const remaining = LIMITS.free.dailyEmails - todayEmails;
+                
+                limitInfo.innerHTML = `
+                    <strong>📧 Compte Gratuit</strong><br>
+                    • Pièces jointes : jusqu'à ${maxSize}<br>
+                    • ${remaining}/${LIMITS.free.dailyEmails} emails restants aujourd'hui<br>
+                    • <a href="#" onclick="showProfileSettings(); return false;" style="color: var(--primary); text-decoration: underline;">Passez à Premium pour plus !</a>
+                `;
+            }
+            
+            document.getElementById('composeTo').focus();
+        }
+
+        function cancelCompose() {
+            composeAttachments = [];
+            filterEmails(currentFilter);
+        }
+
+        async function handleSendEmail() {
+            const to = document.getElementById('composeTo').value;
+            const subject = document.getElementById('composeSubject').value;
+            let body = document.getElementById('composeBody').value;
+
+            if (!to || !subject || !body) {
+                showNotification('Veuillez remplir tous les champs', 'warning');
+                return;
+            }
+
+            if (!to.endsWith('@tartamada.com')) {
+                showNotification('Vous ne pouvez envoyer des messages qu\'aux adresses @tartamada.com', 'error');
+                return;
+            }
+
+            const recipient = users.find(u => u.email === to);
+            if (!recipient) {
+                showNotification('Destinataire introuvable', 'error');
+                return;
+            }
+
+            // Vérifier la limite d'envoi pour les non-premium
+            if (!currentUser.isPremium) {
+                const today = new Date().toDateString();
+                const todayEmails = emails.filter(e => 
+                    e.from === currentUser.email && 
+                    new Date(e.timestamp).toDateString() === today
+                ).length;
+                
+                if (todayEmails >= LIMITS.free.dailyEmails) {
+                    showNotification(
+                        `Vous avez atteint votre limite de ${LIMITS.free.dailyEmails} emails par jour. Passez à Premium pour un envoi illimité !`,
+                        'warning',
+                        '📧 Limite atteinte'
+                    );
+                    return;
+                }
+            }
+
+            // Ajouter la signature pour les premium
+            if (currentUser.isPremium && currentUser.signature) {
+                body += '\n\n---\n' + currentUser.signature;
+            }
+
+            emails.push({
+                id: Date.now().toString(),
+                from: currentUser.email,
+                to,
+                subject,
+                body,
+                attachments: [...composeAttachments],
+                timestamp: new Date().toISOString(),
+                read: false,
+                starred: false,
+                deleted: false,
+                priority: false,
+                labels: []
+            });
+
+            await saveEmails();
+            
+            // Envoyer une réponse automatique si le destinataire l'a activée
+            if (recipient.isPremium && recipient.autoReply?.enabled) {
+                setTimeout(async () => {
+                    emails.push({
+                        id: (Date.now() + 1).toString(),
+                        from: recipient.email,
+                        to: currentUser.email,
+                        subject: `Re: ${subject}`,
+                        body: recipient.autoReply.message,
+                        attachments: [],
+                        timestamp: new Date(Date.now() + 2000).toISOString(),
+                        read: false,
+                        starred: false,
+                        deleted: false,
+                        priority: false,
+                        labels: []
+                    });
+                    await saveEmails();
+                    showNotification(`${recipient.username} a envoyé une réponse automatique`, 'info');
+                }, 3000);
+            }
+            
+            const remaining = !currentUser.isPremium ? LIMITS.free.dailyEmails - emails.filter(e => 
+                e.from === currentUser.email && 
+                new Date(e.timestamp).toDateString() === new Date().toDateString()
+            ).length : '∞';
+            
+            showNotification(
+                `Message envoyé à ${recipient.username}${!currentUser.isPremium ? ` • ${remaining} emails restants aujourd'hui` : ''}`, 
+                'success', 
+                '✉️ Message envoyé !'
+            );
+            composeAttachments = [];
+            filterEmails('inbox');
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                if (currentUser && !document.getElementById('inboxPage').classList.contains('hidden')) {
+                    showCompose();
+                }
+            }
+            if (e.key === 'Escape' && !document.getElementById('composeView').classList.contains('hidden')) {
+                cancelCompose();
+            }
+        });
+
+        init();
+    </script>
+</body>
+</html>
