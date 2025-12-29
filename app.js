@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 
 app.get('*' (req, res) => {
   //res.sendFile(path.join(__dirname, 'src', ''));
-  console.log(req)
+  res.send(req)
 })
 
 app.listen(PORT, () => {
