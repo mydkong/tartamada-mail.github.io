@@ -14,8 +14,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/test', (req, res) => {
-  const filePath = path.join(__dirname, 'src', req.url.substr(1))
-  console.log(filePath)
+  /*const filePath = path.join(__dirname, 'src', req.url.substr(1))
+  console.log(filePath)*/
   //if (fs.existsSync(filePath))
     //res.sendFile(filePath)
   /*else
