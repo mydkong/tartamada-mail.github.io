@@ -20,7 +20,7 @@ app.get('/script.js', (req, res) => {
     //res.sendFile(filePath)
   /*else
     res.status(404).send('Erreur 404 : Page non trouvée')*/
-  res.send(req)
+  res.send('test')
 })
 
 app.listen(PORT, () => {
