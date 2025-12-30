@@ -6,7 +6,7 @@ const app = express()
 const PORT = 443
 console.log('test') 
 
-app.use(express.static(path.join(process.cwd(), 'src')));
+//app.use(express.static(path.join(process.cwd(), 'src')));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'src', 'index.html'));
