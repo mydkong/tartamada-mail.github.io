@@ -19,7 +19,7 @@ app.get('/script.js', (req, res) => {
   if (fs.existsSync(filePath))
     res.sendFile(filePath);
   else
-    res.status(404).send('Erreur 404 : Page non trouvée')
+    res/*.status(404)*/.send('Erreur 404 : Page non trouvée')
   //res.send(req)
 })
 
