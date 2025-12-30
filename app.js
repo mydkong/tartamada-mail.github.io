@@ -13,8 +13,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/*', (req, res) => {
-  if (fs.existsSync(req.url))
-    res.sendFile(path.join(__dirname, 'src', req.url));
+  const filePath = path.join(__dirname, 'src', req.url)
+
+  if (fs.existsSync(filePath))
+    res.sendFile(filePath);
   else
     res.status(404).send('Erreur 404 : Page non trouvée')
   //res.send(req)
