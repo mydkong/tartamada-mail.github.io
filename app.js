@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
   //res.send(req)
 });
 
-app.get('/*', (req, res) => {
+app.get('/script.js', (req, res) => {
   const filePath = path.join(__dirname, 'src', req.url)
 
   if (fs.existsSync(filePath))
