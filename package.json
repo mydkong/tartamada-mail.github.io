@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"  // Ce script n'est pas strictement nécessaire sur Vercel
+    "start": "node app.js"
   },
   "dependencies": {
     "express": "^4.17.1"
