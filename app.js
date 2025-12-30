@@ -4,6 +4,7 @@ import path from 'path'
 
 const app = express()
 const PORT = 443
+console.log('test')
 
 app.use(express.static(path.join(process.cwd(), 'src')));
 
