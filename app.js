@@ -17,10 +17,10 @@ app.get('/script.js', (req, res) => {
   const filePath = path.join(__dirname, 'src', req.url.substr(1))
   console.log(filePath)
   //if (fs.existsSync(filePath))
-    res.sendFile(filePath)
+    //res.sendFile(filePath)
   /*else
     res.status(404).send('Erreur 404 : Page non trouvée')*/
-  //res.send(req)
+  res.send(req)
 })
 
 app.listen(PORT, () => {
