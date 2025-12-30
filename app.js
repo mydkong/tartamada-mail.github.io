@@ -4,7 +4,7 @@ import path from 'path'
 
 const app = express()
 const PORT = 443
-console.log('test') 
+console.log('test')
 
 //app.use(express.static(path.join(process.cwd(), 'src')));
 
@@ -16,10 +16,10 @@ app.get('/', (req, res) => {
 app.get('/script.js', (req, res) => {
   const filePath = path.join(__dirname, 'src', req.url)
   console.log(filePath)
-  if (fs.existsSync(filePath))
-    res.sendFile(filePath);
-  else
-    res/*.status(404)*/.send('Erreur 404 : Page non trouvée')
+  //if (fs.existsSync(filePath))
+    res.sendFile(filePath)
+  /*else
+    res.status(404).send('Erreur 404 : Page non trouvée')*/
   //res.send(req)
 })
 
