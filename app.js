@@ -23,6 +23,10 @@ app.get('/test', (req, res) => {
   res.sendFile(path.join(__dirname, 'src', 'index.html'));
 })
 
+app.get('/contact', (req, res) => {
+    res.send('Page contact');
+});
+
 app.listen(PORT, () => {
   console.log(`Serveur en ligne !`);
 });
