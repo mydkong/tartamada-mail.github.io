@@ -1,5 +1,6 @@
 import express from 'express'
 import fs from 'fs'
+import path from 'path'
 
 const app = express()
 const PORT = 443
@@ -11,7 +12,7 @@ app.get('/', (req, res) => {
   //res.send(req)
 });
 
-app.get('/*' (req, res) => {
+app.get('/*', (req, res) => {
   if (fs.existsSync(req.url))
     res.sendFile(path.join(__dirname, 'src', req.url));
   else
