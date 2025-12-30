@@ -20,7 +20,7 @@ app.get('/test', (req, res) => {
     //res.sendFile(filePath)
   /*else
     res.status(404).send('Erreur 404 : Page non trouvée')*/
-  res.send('test')
+  res.sendFile(path.join(__dirname, 'src', 'index.html'));
 })
 
 app.listen(PORT, () => {
